@@ -1,13 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApolloClient from 'apollo-client';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 
 import App from './components/App';
 
-// Uniquely identify every record we fetch
+const networkInterface = createNetworkInterface({
+  uri: '/graphql',
+  opts: {
+    // Apollo client should send cookies along with requests to the server
+    credentials: 'same-origin',
+  },
+});
+
 const client = new ApolloClient({
+  networkInterface,
+  // Uniquely identify every record we fetch
   dataIdFromObject: (o) => o.id,
 });
 
