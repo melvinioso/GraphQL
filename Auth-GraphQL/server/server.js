@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportConfig = require('./services/auth');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 const schema = require('./schema/schema');
 
 // Create a new Express application
@@ -35,8 +35,8 @@ app.use(
     resave: true,
     saveUninitialized: true,
     secret: 'aaabbbccc',
-    store: new MongoStore({
-      url: MONGO_URI,
+    store: MongoStore.create({
+      mongoUrl: MONGO_URI,
       autoReconnect: true,
     }),
   })
