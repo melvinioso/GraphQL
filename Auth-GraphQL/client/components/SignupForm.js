@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
+import { hashHistory } from 'react-router';
 
 import AuthForm from './AuthForm';
 import mutation from '../mutations/Signup';
@@ -10,6 +11,15 @@ class SignupForm extends Component {
     super(props);
 
     this.state = { errors: [] };
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.data.user && !this.props.data.user) {
+      hashHistory.push('/dashboard');
+      return true;
+    }
+
+    return false;
   }
 
   onSubmit({ email, password }) {
